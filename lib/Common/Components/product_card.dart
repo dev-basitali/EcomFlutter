@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/main.dart';
 
-import '../../Model/lists_class.dart';
 import '../../Provider/favourite_provider.dart';
-import '../../Screens/Product Details/product_details.dart';
 import '../Utils/app_colors.dart';
 
 class ProductCard extends StatelessWidget {
@@ -32,26 +30,7 @@ class ProductCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            reverseTransitionDuration: const Duration(milliseconds: 500),
-            pageBuilder: (context, animation, secondaryAnimation) => FadeTransition(
-              opacity: animation,
-              child: ProductDetails(
-                product: Product(
-                  imagePath: imagePath,
-                  productName: productName,
-                  price: price,
-                  oldPrice: oldPrice,
-                  rating: rating,
-                  id: productId,
-                ),
-              ),
-            ),
-          ),
-        );
+
       },
 
       child: Card(
@@ -158,11 +137,11 @@ class ProductCard extends StatelessWidget {
                           favouriteItems.selectedItems.contains(productId);
                           return IconButton(
                             onPressed: () {
-                              if (isFavorite) {
-                                favouriteItems.removeItem(productId);
-                              } else {
-                                favouriteItems.addItem(productId);
-                              }
+                              // if (isFavorite) {
+                              //   favouriteItems.removeItem(productId);
+                              // } else {
+                              //   favouriteItems.addItem(productId);
+                              // }
                             },
                             icon: Icon(
                               isFavorite

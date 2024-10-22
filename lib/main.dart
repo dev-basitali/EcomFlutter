@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/Common/Utils/app_colors.dart';
+import 'package:store_app/Provider/cart_provider.dart';
+import 'package:store_app/Provider/data_provider.dart';
 
 import 'Provider/favourite_provider.dart';
 import 'Screens/Bottom Navigation/bottom_navigation.dart';
@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FavouriteItems()),
+        ChangeNotifierProvider(create: (_) => DataProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

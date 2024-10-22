@@ -11,7 +11,7 @@
     static const  Color naturalColor = Color(0xff778899);
     static const Color typographyColor = Color(0xff333333);
     static const Color highlightColor = Color(0xffFFEB3B);
-    static const Color bgColor = Color(0xffFFFFF0);
+    static const Color bgColor = Color(0xffFFFFFF);
     static const Color errorColor = Color(0xffFF3B30);
     static const LinearGradient gradientColor = LinearGradient(
       colors: [

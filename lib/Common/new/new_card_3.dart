@@ -139,11 +139,11 @@ class _ItemsDisplayState extends State<ItemsDisplay> {
                       favouriteItems.selectedItems.contains(items.id);
                       return IconButton(
                         onPressed: () {
-                          if (isFavorite) {
-                            favouriteItems.removeItem(items.id);
-                          } else {
-                            favouriteItems.addItem(items.id);
-                          }
+                          // if (isFavorite) {
+                          //   favouriteItems.removeItem(items.id);
+                          // } else {
+                          //   favouriteItems.addItem(items.id);
+                          // }
                         },
                         icon: Icon(
                           isFavorite

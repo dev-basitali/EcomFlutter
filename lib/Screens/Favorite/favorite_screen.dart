@@ -1,13 +1,17 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:badges/badges.dart' as badges;
 import '../../Common/Components/my_drawer.dart';
 import '../../Common/Components/product_card.dart';
 import '../../Common/Utils/app_colors.dart';
+import '../../Common/new/new_card.dart';
 import '../../Model/lists_class.dart';
+import '../../Model/product_service.dart';
+import '../../Model/products_model.dart';
+import '../../Provider/cart_provider.dart';
 import '../../Provider/favourite_provider.dart';
-
+import '../Add to Cart/add_to_cart.dart';
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -17,67 +21,89 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   final StoreServices storeServices = StoreServices(); // Access store services
-
-
+  ProductsModel productsModel = ProductsModel();
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    Provider.of<FavouriteItems>(context,);
-    return  Scaffold(
+
+    return Scaffold(
       appBar: AppBar(
-        title:  const Text(
+        title: const Text(
           'Favorite',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColor.bgColor
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColor.bgColor),
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(BootstrapIcons.cart3),
-            onPressed: () {
-              // Implement your cart functionality here
-            },
+          badges.Badge(
+            showBadge: true,
+            badgeContent: Consumer<CartProvider>(
+              builder: (BuildContext context, CartProvider provider, Widget? child) {
+                return Text(
+                  provider.cartItems.length.toString(), // Number to display on the badge
+                  style: const TextStyle(color: Colors.white), // Badge text style
+                );
+              },
+            ),
+            badgeStyle: const badges.BadgeStyle(
+              badgeColor: Colors.red,
+              padding: EdgeInsets.all(3),
+            ),
+            position: badges.BadgePosition.topEnd(top: 0, end: 3),
+            child: IconButton(
+              icon: const Icon(BootstrapIcons.cart3),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (builder) => AddToCartScreen()),
+                );
+              },
+            ),
           ),
         ],
-        iconTheme: const IconThemeData(
-            color: AppColor.bgColor), // Change drawer icon color here
+        iconTheme: const IconThemeData(color: AppColor.bgColor),
       ),
       drawer: const MyDrawer(),
       body: Consumer<FavouriteItems>(
         builder: (context, favouriteItems, child) {
-          // Get the favorite product IDs
-          List<int> favouriteIds = favouriteItems.selectedItems;
-      
-          // Filter the products based on their ID
-          List<Product> favouriteProducts = storeServices.products
-              .where((product) => favouriteIds.contains(product.id))
+          // Filter products by their ID from the list of favorites
+          List<ProductsDetail> favouriteProducts = productsModel.products
+              .where((product) => favouriteItems.selectedItems.any((fav) => fav.id == product.id))
               .toList();
-      
-          if (favouriteProducts.isEmpty) {
-            return const Center(
-              child: Text('No favorite items yet.'),
-            );
-          }
-          return GridView.builder(
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
 
+          if (favouriteProducts.isEmpty) {
+            return const Center(child: Text('No favorite items yet.'));
+          }
+
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
               childAspectRatio: (width / 2.4) / (height * 0.35),
             ),
             itemCount: favouriteProducts.length,
             itemBuilder: (context, index) {
               final product = favouriteProducts[index];
-              return ProductCard(
-                imagePath: product.imagePath,
-                price: product.price,
-                productId: product.id,
-                productName: product.productName,
-                oldPrice: product.oldPrice,
-                rating: product.rating,
+
+              final String categoryName = product.categories?.isNotEmpty == true
+                  ? product.categories![0].name ?? "Unknown Category"
+                  : "Unknown Category";
+
+              final double discountPercentage = calculateDiscountPercentage(
+                product.regularPrice ?? '0',
+                product.price,
+              );
+
+              return CustomProductCard(
+                id: product.id,
+                quantity: product.stockQuantity,
+                productName: product.name ?? 'Unknown Product',
+                oldPrice: product.regularPrice ?? '0',
+                newPrice: product.price ?? '0',
+                discountPercentage: double.parse(discountPercentage.toStringAsFixed(1)),
+                ratingCount: product.averageRating.toString(),
+                imagePath: product.images![0].src!.replaceAll('localhost', '192.168.18.52'),
+                category: categoryName,
               );
             },
           );
@@ -85,4 +111,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
     );
   }
+
+  double calculateDiscountPercentage(String regularPrice, String? salePrice) {
+    if (salePrice != null && salePrice.isNotEmpty && regularPrice.isNotEmpty) {
+      double regular = double.tryParse(regularPrice) ?? 0.0;
+      double sale = double.tryParse(salePrice) ?? 0.0;
+
+      if (regular > 0) {
+        return ((regular - sale) / regular) * 100;
+      }
+    }
+    return 0;
+  }
 }
+

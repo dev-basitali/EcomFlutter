@@ -6,6 +6,7 @@ import 'package:store_app/main.dart';
 import '../../Common/Utils/app_colors.dart';
 import '../../Model/new_model.dart';
 import '../../Provider/favourite_provider.dart';
+import '../Add to Cart/add_to_cart.dart';
 
 
 class DetailPage extends StatefulWidget {
@@ -35,7 +36,8 @@ class _DetailPageState extends State<DetailPage> {
           IconButton(
             icon: const Icon(BootstrapIcons.cart3),
             onPressed: () {
-              // Implement your cart functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (builder) => AddToCartScreen()));
+
             },
           ),
         ],
@@ -324,11 +326,11 @@ class _DetailPageState extends State<DetailPage> {
                         favouriteItems.selectedItems.contains(widget.items.id);
                         return IconButton(
                           onPressed: () {
-                            if (isFavorite) {
-                              favouriteItems.removeItem(widget.items.id);
-                            } else {
-                              favouriteItems.addItem(widget.items.id);
-                            }
+                            // if (isFavorite) {
+                            //   favouriteItems.removeItem(widget.items.id);
+                            // } else {
+                            //   favouriteItems.addItem(widget.items.id);
+                            // }
                           },
                           icon: Icon(
                             isFavorite

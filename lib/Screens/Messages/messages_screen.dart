@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Common/Components/my_drawer.dart';
 import '../../Common/Utils/app_colors.dart';
+import '../Add to Cart/add_to_cart.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
@@ -28,7 +29,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
           IconButton(
             icon: const Icon(BootstrapIcons.cart3),
             onPressed: () {
-              // Implement your cart functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (builder) => AddToCartScreen()));
+
             },
           ),
         ],

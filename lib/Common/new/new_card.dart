@@ -1,27 +1,33 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/Model/product_service.dart';
-import 'package:store_app/main.dart';
-
+import '../../Model/product_service.dart';
+import '../../Model/variation_model.dart';
+import '../../Provider/cart_provider.dart';
 import '../../Provider/favourite_provider.dart';
+import '../../main.dart';
 import '../Utils/app_colors.dart';
+
 class CustomProductCard extends StatefulWidget {
   final int? id;
+  final int? quantity;
   final String? productName;
   final String? oldPrice;
   final String? newPrice;
+  final String? category;
   final double? discountPercentage;
   final String imagePath;
   final String? ratingCount;
   const CustomProductCard({
     super.key,
     required this.id,
+    this.quantity,
     required this.productName,
     required this.oldPrice,
     required this.newPrice,
+    required this.category,
     this.discountPercentage,
-     required this.imagePath,
+    required this.imagePath,
     required this.ratingCount,
   });
 
@@ -31,208 +37,211 @@ class CustomProductCard extends StatefulWidget {
 
 class _CustomProductCardState extends State<CustomProductCard> {
 
-
-
+  ProductsDetail products =  ProductsDetail();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    // Create the product object to add to the cart
+    final product = ProductsDetail(
+      id: widget.id,
+      name: widget.productName,
+      price: widget.newPrice,
+      stockQuantity: widget.quantity,
+      images: [ImageData(src: widget.imagePath.replaceAll('localhost', '192.168.18.52'))],
+    );
+
     return Card(
       color: AppColor.bgColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        alignment: Alignment.topRight,
         children: [
-          Stack(
-            alignment: Alignment.centerRight,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: width / 1.77,
-                padding:
-                     EdgeInsets.symmetric(vertical: height / 40.4,),
-                child: Image.network(
-                  widget.imagePath != null ? widget.imagePath : 'images',
-                  fit: BoxFit.contain,
-                  height: height /4.25,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Image.network(
+                    fit: BoxFit.cover,
+                    widget.imagePath,
+                    width: width / 3.5,
+                    scale: 2,
+                    height: height / 5,
+                  ),
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(right: width / 15.22,bottom: height /13.93 ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: width / 28.36,
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: height / 26.93,
-                      width: width / 14.13,
-                      decoration: const BoxDecoration(
-                        color: AppColor.typographyColor,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                    SizedBox(height: height / 101,),
+                    Text(widget.category!,
+                        style: TextStyle(
+                          fontSize: height / 50.4,
+                          color: AppColor.naturalColor,
+                        )),
+                    Text(
+                      widget.productName!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: height / 44.89,
                       ),
-                      child: InkWell(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        onTap: () {},
-                        child: Consumer<FavouriteItems>(
-                          // Use Consumer to listen to changes
-                          builder: (context, favouriteItems, child) {
-                            bool isFavorite =
-                                favouriteItems.selectedItems.contains(widget.id);
-                            return IconButton(
-                              onPressed: () {
-                                if (isFavorite) {
-                                  favouriteItems.removeItem(widget.id!);
-                                } else {
-                                  favouriteItems.addItem(widget.id!);
-                                }
-                              },
-                              icon: Icon(
-                                isFavorite
-                                    ? BootstrapIcons.heart_fill
-                                    : BootstrapIcons.heart,
-                                color:
-                                    isFavorite ? Colors.red : AppColor.bgColor,
-                                size: height / 53.87,
+                    ),
+                    SizedBox(height: height / 202),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.amber, size: height / 40.4),
+                        Icon(Icons.star, color: Colors.amber, size: height / 40.4),
+                        Icon(Icons.star, color: Colors.amber, size: height / 40.4),
+                        Icon(Icons.star, color: Colors.amber, size: height / 40.4),
+                        Icon(Icons.star_border,
+                            color: Colors.grey, size: height / 40.4),
+                        SizedBox(width: width / 113.5),
+                        Icon(
+                          Icons.message_outlined,
+                          color: AppColor.naturalColor,
+                          size: height / 50.5,
+                        ),
+                        Text('${widget.ratingCount}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: height / 62.27,
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: height / 20.2),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '$currency.${widget.oldPrice}',
+                                  style: TextStyle(
+                                    fontSize: height / 50.89,
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                                SizedBox(width: width / 56.75),
+                                Container(
+                                  height: height / 47.53,
+                                  width: width / 12.27,
+                                  color: AppColor.rareColor,
+                                  child: Center(
+                                    child: Text(
+                                      '-${widget.discountPercentage}%',
+                                      style: TextStyle(
+                                        color: AppColor.typographyColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height / 63.76,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '$currency.${widget.newPrice}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: height / 26.76,
+                                color: AppColor.typographyColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: width / 9.38),
+                        Consumer<CartProvider>(
+                          builder: (BuildContext context, CartProvider provider, Widget? child) {
+                            return Align(
+                              alignment: Alignment.bottomRight,
+                              child: Material(
+                                color: AppColor.primaryColor,
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                child: InkWell(
+                                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                  onTap: () {
+                                    bool isInCart = provider.cartItems.any((product)=> product.id == widget.id);
+                                    if (!isInCart) {
+                                      provider.addToCart(product,context);
+                                      return;
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Product already in cart!')));
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width / 32.27,
+                                        vertical: height / 57.71),
+                                    child: Icon(
+                                      BootstrapIcons.cart3,
+                                      color: Colors.white,
+                                      size: height / 35.87,
+                                    ),
+                                  ),
+                                ),
                               ),
                             );
                           },
                         ),
-                      ),
+                      ],
                     ),
-                     SizedBox(height: height / 161.6,),
-                    Container(
-                      height: height / 26.93,
-                      width: width / 14.13,
-                      decoration: const BoxDecoration(
-                        color: AppColor.rareColor,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
-                      child: InkWell(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(30)),
-                        onTap: () {},
-                        child:  Icon(
-                          Icons.balance,
-                          color: Color(0xff363842),
-                          size: height / 50.5,
-                        ),
-                      ),
-                    ),
-
                   ],
                 ),
               ),
             ],
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(
-              horizontal: width / 28.36,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.productName!,
-                  style:  TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: height / 44.89,
-                  ),
-                ),
-                 SizedBox(height: height / 202),
-                Row(
-                  children: [
-                     Icon(Icons.star, color: Colors.amber, size: height / 40.4),
-                     Icon(Icons.star, color: Colors.amber, size: height / 40.4),
-                     Icon(Icons.star, color: Colors.amber, size: height / 40.4),
-                     Icon(Icons.star, color: Colors.amber, size: height / 40.4),
-                     Icon(Icons.star_border, color: Colors.grey, size: height / 40.4),
-                     SizedBox(width: width / 113.5),
-                     Icon(
-                      Icons.message_outlined,
-                      color: AppColor.naturalColor,
-                      size: height / 50.5,
-                    ),
-                    Text('${widget.ratingCount}',
-                        style:  TextStyle(
-                            color: Colors.grey,
-                          fontSize: height / 62.27,
-                        )
-                    ),
-                  ],
-                ),
-                 SizedBox(height: height / 20.2),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '$currency.${widget.oldPrice}',
-                              style:  TextStyle(
-                                fontSize: height /44.89,
-                                color: Colors.grey,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                             SizedBox(width: width / 56.75),
-                            Container(
-                              height: height / 47.53,
-                              width: width /12.27,
-                              color: AppColor.rareColor,
-                              child: Center(
-                                child: Text(
-                                  '-${widget.discountPercentage}%',
-                                  style: TextStyle(
-                                    color: AppColor.typographyColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height / 63.76,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '$currency.${widget.newPrice}',
-                          style:  TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: height / 23.76,
-                            color: AppColor.typographyColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                     SizedBox(width: width / 9.08),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Material(
-                        color: AppColor.primaryColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: InkWell(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                          onTap: () {},
-                          child:  Padding(
-                            padding: EdgeInsets.symmetric(horizontal: width / 30.27, vertical: height / 57.71),
-                            child: Icon(
-                              BootstrapIcons.cart3,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: height / 26.93,
+              width: width / 14.13,
+              decoration: const BoxDecoration(
+                color: AppColor.typographyColor,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+              child: InkWell(
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                onTap: () {},
+                child: Consumer<FavouriteItems>(
+                  builder: (context, favouriteItems, child) {
+                    bool isFavorite = favouriteItems.isFavourite(product);
+                    return IconButton(
+                      onPressed: () {
+                        if (isFavorite) {
+                          favouriteItems.removeItem(product);
+                        } else {
+                          favouriteItems.addItem(product);
+                        }
+                      },
+                      icon: Icon(
+                        isFavorite ? BootstrapIcons.heart_fill : BootstrapIcons.heart,
+                        color: isFavorite ? Colors.red : AppColor.bgColor,
+                        size: height / 53.87,
                       ),
-                    ),
-                  ],
-                ),
-
-              ],
+                    );
+                  },
+                )
+              ),
             ),
           ),
         ],
+
       ),
     );
   }

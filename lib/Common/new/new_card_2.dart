@@ -40,11 +40,11 @@ class CustomCardTwo extends StatelessWidget {
                   favouriteItems.selectedItems.contains(productId);
                   return IconButton(
                     onPressed: () {
-                      if (isFavorite) {
-                        favouriteItems.removeItem(productId);
-                      } else {
-                        favouriteItems.addItem(productId);
-                      }
+                      // if (isFavorite) {
+                      //   favouriteItems.removeItem(productId);
+                      // } else {
+                      //   favouriteItems.addItem(productId);
+                      // }
                     },
                     icon: Icon(
                       isFavorite

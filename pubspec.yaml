@@ -43,7 +43,10 @@ dependencies:
   dotted_line: ^3.2.2
   device_preview: ^1.2.0
   http: ^1.2.2
-  dio: ^5.7.0
+  easy_sidemenu: ^0.6.0
+  flutter_side_menu: ^0.5.3
+  cool_alert: ^2.0.1
+  badges: ^3.1.2
 
 
 dev_dependencies:
@@ -72,6 +75,7 @@ flutter:
   assets:
      - assets/images/
      - assets/Icons/
+     - assets/raw/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

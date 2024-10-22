@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Screens/Bottom Navigation/bottom_navigation.dart';
 import '../Utils/app_colors.dart';
+import 'list_drawer.dart'; // Ensure to import the CategoryListDrawer
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -12,60 +13,82 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  bool _showCategoryList = false; // State variable to toggle category view
+
+  void _toggleCategoryList() {
+    setState(() {
+      _showCategoryList = !_showCategoryList; // Toggle the state
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+
     return SizedBox(
       width: width * 0.65,
       child: Drawer(
         child: Scaffold(
           backgroundColor: AppColor.bgColor,
           appBar: AppBar(
-            title: const Text(
-              'My App',
-              style: TextStyle(
+            title: Text(
+              _showCategoryList ? 'Categories' : 'My App', // Change title based on view
+              style: const TextStyle(
                 color: AppColor.bgColor,
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
               ),
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  if (_showCategoryList) {
+                    _toggleCategoryList(); // Go back to main drawer
+                  } else {
+                    Navigator.pop(context); // Close the drawer
+                  }
                 },
-                icon: const Icon(BootstrapIcons.x,color: AppColor.bgColor,),
+                icon: const Icon(
+                  BootstrapIcons.x,
+                  color: AppColor.bgColor,
+                ),
               )
             ],
           ),
-          body: ListView(
+          body: _showCategoryList
+              ? const CategoryListDrawer() // Show Category List Drawer
+              : ListView(
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (builder) => const BottomNavigation()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (builder) => const BottomNavigation(),
+                    ),
+                  );
                 },
                 child: const ListTile(
-                  leading: Icon(BootstrapIcons.house,),
+                  leading: Icon(BootstrapIcons.house),
                   title: Text('Home'),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
               ),
-               InkWell(
-                 onTap: () {},
-                 child: const ListTile(
-                  leading:Icon(BootstrapIcons.list_check,),
+              InkWell(
+                onTap: _toggleCategoryList, // Show categories
+                child: const ListTile(
+                  leading: Icon(BootstrapIcons.list_check),
                   title: Text('Categories'),
                   trailing: Icon(Icons.arrow_forward_ios),
-                               ),
-               ),
-               InkWell(
-                 onTap: () {},
-                 child: const ListTile(
-                  leading: Icon(BootstrapIcons.gear_fill,),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  leading: Icon(BootstrapIcons.gear_fill),
                   title: Text('Settings'),
                   trailing: Icon(Icons.arrow_forward_ios),
-                               ),
-               ),
+                ),
+              ),
             ],
           ),
         ),

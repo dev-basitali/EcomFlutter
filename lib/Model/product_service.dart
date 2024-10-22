@@ -1,46 +1,45 @@
 class ProductsDetail {
-  final int? id;
-  final String? name;
-  final String? slug;
-  final String? permalink;
-  final DateTime? dateCreated;
-  final DateTime? dateModified;
-  final String? type;
-  final String? status;
-  final bool? featured;
-  final String? catalogVisibility;
-  final String? description;
-  final String? shortDescription;
-  final String? sku;
-  final String? price;
-  final String? regularPrice;
-  final String? salePrice;
-  final bool? onSale;
-  final bool? purchasable;
-  final int? totalSales;
-  final bool? virtual;
-  final bool? downloadable;
-  final List<dynamic>? downloads;
-  final bool? manageStock;
-  final int? stockQuantity;
-  final String? backorders;
-  final bool? backordersAllowed;
-  final bool? backordered;
-  final bool? soldIndividually;
-  final String? stockStatus;
-  final Dimensions? dimensions;
-  final bool? shippingRequired;
-  final bool? shippingTaxable;
-  final String? shippingClass;
-  final int? shippingClassId;
-  final bool? reviewsAllowed;
-  final String? averageRating;
-  final int? ratingCount;
-  final List<Category>? categories;
-  final List<dynamic>? tags;
-  final List<ImageData>? images;
-  final List<int>? relatedIds;
-  final List<MetaData>? metaData;
+  int? id;
+  String? name;
+  String? slug;
+  String? permalink;
+  DateTime? dateCreated;
+  DateTime? dateModified;
+  String? type;
+  String? status;
+  bool? featured;
+  String? catalogVisibility;
+  String? description;
+  String? shortDescription;
+  String? sku;
+  String? price;
+  String? regularPrice;
+  bool? onSale;
+  bool? purchasable;
+  int? totalSales;
+  bool? virtual;
+  bool? downloadable;
+  String? taxStatus;
+  bool? manageStock;
+  int? stockQuantity;
+  bool? backordersAllowed;
+  bool? backordered;
+  bool? soldIndividually;
+  bool? shippingRequired;
+  bool? shippingTaxable;
+  bool? reviewsAllowed;
+  double? averageRating;
+  int? ratingCount;
+  List<Category>? categories;
+  List<ImageData>? images;
+  List<Attribute>? attributes;
+  List<DefaultAttribute>? defaultAttributes;
+  List<int>? variations;
+  String? priceHtml;
+  List<int>? relatedIds;
+  List<MetaData>? metaData;
+  String? stockStatus;
+  bool? hasOptions;
 
   ProductsDetail({
     this.id,
@@ -58,33 +57,32 @@ class ProductsDetail {
     this.sku,
     this.price,
     this.regularPrice,
-    this.salePrice,
     this.onSale,
     this.purchasable,
     this.totalSales,
     this.virtual,
     this.downloadable,
-    this.downloads,
+    this.taxStatus,
     this.manageStock,
     this.stockQuantity,
-    this.backorders,
     this.backordersAllowed,
     this.backordered,
     this.soldIndividually,
-    this.stockStatus,
-    this.dimensions,
     this.shippingRequired,
     this.shippingTaxable,
-    this.shippingClass,
-    this.shippingClassId,
     this.reviewsAllowed,
     this.averageRating,
     this.ratingCount,
     this.categories,
-    this.tags,
     this.images,
+    this.attributes,
+    this.defaultAttributes,
+    this.variations,
+    this.priceHtml,
     this.relatedIds,
     this.metaData,
+    this.stockStatus,
+    this.hasOptions,
   });
 
   factory ProductsDetail.fromJson(Map<String, dynamic> json) {
@@ -93,12 +91,8 @@ class ProductsDetail {
       name: json['name'],
       slug: json['slug'],
       permalink: json['permalink'],
-      dateCreated: json['date_created'] != null
-          ? DateTime.parse(json['date_created'])
-          : null,
-      dateModified: json['date_modified'] != null
-          ? DateTime.parse(json['date_modified'])
-          : null,
+      dateCreated: DateTime.parse(json['date_created']),
+      dateModified: DateTime.parse(json['date_modified']),
       type: json['type'],
       status: json['status'],
       featured: json['featured'],
@@ -108,82 +102,99 @@ class ProductsDetail {
       sku: json['sku'],
       price: json['price'],
       regularPrice: json['regular_price'],
-      salePrice: json['sale_price'],
       onSale: json['on_sale'],
       purchasable: json['purchasable'],
       totalSales: json['total_sales'],
       virtual: json['virtual'],
       downloadable: json['downloadable'],
-      downloads: json['downloads'] != null
-          ? List<dynamic>.from(json['downloads'])
-          : null,
+      taxStatus: json['tax_status'],
       manageStock: json['manage_stock'],
       stockQuantity: json['stock_quantity'],
-      backorders: json['backorders'],
       backordersAllowed: json['backorders_allowed'],
       backordered: json['backordered'],
       soldIndividually: json['sold_individually'],
-      stockStatus: json['stock_status'],
-      dimensions: json['dimensions'] != null
-          ? Dimensions.fromJson(json['dimensions'])
-          : null,
       shippingRequired: json['shipping_required'],
       shippingTaxable: json['shipping_taxable'],
-      shippingClass: json['shipping_class'],
-      shippingClassId: json['shipping_class_id'],
       reviewsAllowed: json['reviews_allowed'],
-      averageRating: json['average_rating'],
+      averageRating: double.parse(json['average_rating']),
       ratingCount: json['rating_count'],
-      categories: json['categories'] != null
-          ? List<Category>.from(
-          json['categories'].map((category) => Category.fromJson(category)))
-          : null,
-      tags: json['tags'] != null ? List<dynamic>.from(json['tags']) : null,
-      images: json['images'] != null
-          ? List<ImageData>.from(
-          json['images'].map((image) => ImageData.fromJson(image)))
-          : null,
-      relatedIds: json['related_ids'] != null
-          ? List<int>.from(json['related_ids'])
-          : null,
-      metaData: json['meta_data'] != null
-          ? List<MetaData>.from(
-          json['meta_data'].map((meta) => MetaData.fromJson(meta)))
-          : null,
+      categories: (json['categories'] as List)
+          .map((category) => Category.fromJson(category))
+          .toList(),
+      images: (json['images'] as List)
+          .map((image) => ImageData.fromJson(image))
+          .toList(),
+      attributes: (json['attributes'] as List)
+          .map((attr) => Attribute.fromJson(attr))
+          .toList(),
+      defaultAttributes: (json['default_attributes'] as List)
+          .map((attr) => DefaultAttribute.fromJson(attr))
+          .toList(),
+      variations: (json['variations'] as List).cast<int>(),
+      priceHtml: json['price_html'],
+      relatedIds: (json['related_ids'] as List).cast<int>(),
+      metaData: (json['meta_data'] as List)
+          .map((meta) => MetaData.fromJson(meta))
+          .toList(),
+      stockStatus: json['stock_status'],
+      hasOptions: json['has_options'],
     );
   }
-}
 
-class Dimensions {
-  final String? length;
-  final String? width;
-  final String? height;
-
-  Dimensions({
-    this.length,
-    this.width,
-    this.height,
-  });
-
-  factory Dimensions.fromJson(Map<String, dynamic> json) {
-    return Dimensions(
-      length: json['length'],
-      width: json['width'],
-      height: json['height'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'slug': slug,
+      'permalink': permalink,
+      'date_created': dateCreated?.toIso8601String(),
+      'date_modified': dateModified?.toIso8601String(),
+      'type': type,
+      'status': status,
+      'featured': featured,
+      'catalog_visibility': catalogVisibility,
+      'description': description,
+      'short_description': shortDescription,
+      'sku': sku,
+      'price': price,
+      'regularPrice': regularPrice,
+      'on_sale': onSale,
+      'purchasable': purchasable,
+      'total_sales': totalSales,
+      'virtual': virtual,
+      'downloadable': downloadable,
+      'tax_status': taxStatus,
+      'manage_stock': manageStock,
+      'stock_quantity': stockQuantity,
+      'backorders_allowed': backordersAllowed,
+      'backordered': backordered,
+      'sold_individually': soldIndividually,
+      'shipping_required': shippingRequired,
+      'shipping_taxable': shippingTaxable,
+      'reviews_allowed': reviewsAllowed,
+      'average_rating': averageRating,
+      'rating_count': ratingCount,
+      'categories': categories?.map((cat) => cat.toJson()).toList(),
+      'images': images?.map((img) => img.toJson()).toList(),
+      'attributes': attributes?.map((attr) => attr.toJson()).toList(),
+      'default_attributes':
+      defaultAttributes?.map((attr) => attr.toJson()).toList(),
+      'variations': variations,
+      'price_html': priceHtml,
+      'related_ids': relatedIds,
+      'meta_data': metaData?.map((meta) => meta.toJson()).toList(),
+      'stock_status': stockStatus,
+      'has_options': hasOptions,
+    };
   }
 }
 
 class Category {
-  final int? id;
-  final String? name;
-  final String? slug;
+  int? id;
+  String? name;
+  String? slug;
 
-  Category({
-    this.id,
-    this.name,
-    this.slug,
-  });
+  Category({this.id, this.name, this.slug});
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
@@ -192,41 +203,91 @@ class Category {
       slug: json['slug'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'slug': slug,
+    };
+  }
 }
 
 class ImageData {
-  final int? id;
-  final String src;
-  final String? name;
-  final String? alt;
+  int? id;
+  String? src;
 
-  ImageData({
-    this.id,
-    required this.src,
-    this.name,
-    this.alt,
-  });
+  ImageData({this.id, this.src});
 
   factory ImageData.fromJson(Map<String, dynamic> json) {
     return ImageData(
       id: json['id'],
       src: json['src'],
-      name: json['name'],
-      alt: json['alt'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'src': src,
+    };
+  }
+}
+
+class Attribute {
+  int? id;
+  String? name;
+  List<String>? options;
+
+  Attribute({this.id, this.name, this.options});
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      id: json['id'],
+      name: json['name'],
+      options: (json['options'] as List).cast<String>(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'options': options,
+    };
+  }
+}
+
+class DefaultAttribute {
+  int? id;
+  String? name;
+  String? option;
+
+  DefaultAttribute({this.id, this.name, this.option});
+
+  factory DefaultAttribute.fromJson(Map<String, dynamic> json) {
+    return DefaultAttribute(
+      id: json['id'],
+      name: json['name'],
+      option: json['option'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'option': option,
+    };
   }
 }
 
 class MetaData {
-  final int? id;
-  final String? key;
-  final String? value;
+  int? id;
+  String? key;
+  String? value;
 
-  MetaData({
-    this.id,
-    this.key,
-    this.value,
-  });
+  MetaData({this.id, this.key, this.value});
 
   factory MetaData.fromJson(Map<String, dynamic> json) {
     return MetaData(
@@ -234,5 +295,13 @@ class MetaData {
       key: json['key'],
       value: json['value'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'key': key,
+      'value': value,
+    };
   }
 }

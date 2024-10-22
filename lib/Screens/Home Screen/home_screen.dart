@@ -1,8 +1,11 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:badges/badges.dart' as badges;
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:store_app/Common/Utils/app_colors.dart';
 import 'package:store_app/Common/new/new_card_widget_2.dart';
 import '../../Common/Components/card_listView.dart';
@@ -14,7 +17,10 @@ import '../../Common/new/new_card_widget.dart';
 import '../../Common/new/new_card_widget_4.dart';
 import '../../Model/lists_class.dart';
 import '../../Common/Components/card.dart';
+import '../../Model/products_model.dart';
+import '../../Provider/cart_provider.dart';
 import '../../main.dart';
+import '../Add to Cart/add_to_cart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +30,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductsModel productsModel =  ProductsModel();
+
   final storeServices = StoreServices();
   bool isSearching = false;
 
@@ -73,13 +81,29 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
           ),
-          IconButton(
-            icon: const Icon(
-              BootstrapIcons.cart3,
+          badges.Badge(
+            showBadge: true,
+            badgeContent: Consumer<CartProvider>(
+              builder: (BuildContext context, CartProvider provider, Widget? child)
+              {
+                return Text(
+                  provider.cartItems.length.toString(), // Number to display on the badge
+                  style: const TextStyle(color: Colors.white), // Badge text style
+                );
+              },
             ),
-            onPressed: () {
-              // Implement your cart functionality here
-            },
+            badgeStyle: const badges.BadgeStyle(
+              badgeColor: Colors.red, // Customize badge background color
+              padding: EdgeInsets.all(4), // Padding inside the badge
+            ),
+            position: badges.BadgePosition.topEnd(top: 0, end: 3), // Badge position
+            child: IconButton(
+              icon: const Icon(BootstrapIcons.cart3),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (builder) => AddToCartScreen()));
+
+              },
+            ),
           ),
         ],
         iconTheme: const IconThemeData(
@@ -337,21 +361,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: height / 40),
                         ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              const Text('All Categories'),
-                              Gap(width / 98),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: height / 49,
-                                color: AppColor.typographyColor,
-                              ),
-                            ],
-                          ),
-                        ),
+                        // const Spacer(),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute
+                        //           (builder: (builder) => AllCategoriesScreen()));
+                        //   },
+                        //   child: Row(
+                        //     children: [
+                        //       const Text('All Categories'),
+                        //       Gap(width / 98),
+                        //       Icon(
+                        //         Icons.arrow_forward_ios,
+                        //         size: height / 49,
+                        //         color: AppColor.typographyColor,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                     Gap(height * 0.01),
@@ -361,6 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: storeServices.categoryList.length,
                           itemBuilder: (context, index) {
+
                             return Padding(
                               padding: EdgeInsets.all(width / 98),
                               child: ReuseContainer(
@@ -698,7 +728,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Gap(height * 0.01),
                     SizedBox(
-                      height: height * 0.55,
+                      height: height * 0.5,
                       child: ProductPage(),
                     ),
                   ],
