@@ -6,9 +6,9 @@ import 'package:store_app/Model/product_service.dart';
 class ProductsModel {
   List<ProductsDetail> products = [];
   Future<List<ProductsDetail>> getProducts() async {
-    const String baseUrl = 'https://192.168.18.52/ecomFlutterApp/wp-json/wc/v3/products';
-    const String consumerKey = 'ck_33c568a00f12937c153e6382da73c0e182d13226';
-    const String consumerSecret = 'cs_cbc268e06bc7f466e690452b3706d9938926489a';
+    const String baseUrl = 'https://192.168.100.5/ecomFlutter/wp-json/wc/v3/products';
+    const String consumerKey = 'ck_d3c2d1f8f9fad21b9418d65340693709d7a20390';
+    const String consumerSecret = 'cs_8f4821b3ca6431aea2620ad610249bb2d21a32ba';
 
     try {
       final response = await http.get(
