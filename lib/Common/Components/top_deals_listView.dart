@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/Common/Components/top_deals_card.dart';
-
-import '../../Model/lists_class.dart';
+import '../../Export/export_dev.dart';
 
 class TopDealsCardList extends StatelessWidget {
   final storeServices = StoreServices();

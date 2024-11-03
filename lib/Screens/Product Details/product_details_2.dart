@@ -1,13 +1,5 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/main.dart';
-
-import '../../Common/Utils/app_colors.dart';
-import '../../Model/new_model.dart';
-import '../../Provider/favourite_provider.dart';
-import '../Add to Cart/add_to_cart.dart';
-
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key, required this.items});

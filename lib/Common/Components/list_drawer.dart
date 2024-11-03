@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../Model/category_model.dart';
-import '../../Model/category_service.dart';
-import '../../Screens/All Categories/product_page.dart';
-import '../Utils/app_colors.dart';
+import '../../Export/export_dev.dart';
 
 class CategoryListDrawer extends StatefulWidget {
   const CategoryListDrawer({super.key});
@@ -13,7 +9,7 @@ class CategoryListDrawer extends StatefulWidget {
 }
 
 class _CategoryListDrawerState extends State<CategoryListDrawer> {
-  final CategoryService categoryService = CategoryService();
+
   List<CategoryModel> parentCategories = [];
 
   @override
@@ -22,10 +18,10 @@ class _CategoryListDrawerState extends State<CategoryListDrawer> {
     fetchCategories();
   }
 
+// Filter parent categories (parent == 0)
   Future<void> fetchCategories() async {
-    List<CategoryModel> allCategories = await categoryService.getCategories();
+    List<CategoryModel> allCategories = await WpServices.getCategories();
     setState(() {
-      // Filter parent categories (parent == 0)
       parentCategories =
           allCategories.where((category) => category.parent == 0).toList();
     });
@@ -36,51 +32,58 @@ class _CategoryListDrawerState extends State<CategoryListDrawer> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-
-      return Drawer(
-        child: Scaffold(
-          body: parentCategories.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
+    return Drawer(
+      child: Scaffold(
+        body: parentCategories.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            // ParentCategories List View Builder
+            : ListView.builder(
                 itemCount: parentCategories.length,
                 itemBuilder: (context, index) {
                   CategoryModel parentCategory = parentCategories[index];
-                  List<CategoryModel> childCategories = categoryService
+                  List<CategoryModel> childCategories = WpServices
                       .categories
-                      .where(
-                          (category) => category.parent == parentCategory.id)
+                      .where((category) => category.parent == parentCategory.id)
                       .toList();
                   return ExpansionTile(
-                    title: Text(parentCategory.name ?? '',
+                    title: Text(
+                      parentCategory.name ?? '',
                       style: TextStyle(
                           color: AppColor.typographyColor,
-                        fontWeight: FontWeight.bold
-                      ),
+                          fontWeight: FontWeight.bold),
                     ),
-                    children: childCategories.map((children) {
-                      return ListTile(
-                        title: TextButton(
-                          onPressed: () {
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductListScreen(category: children),
-                          ),
-                        ); }, child: Row(
-                          children: [
-                            Text(children.name ?? '',
-                            style: TextStyle(
-                                color: AppColor.typographyColor
+                    // Mapping Child Categories
+                    children: childCategories.map(
+                      (children) {
+                        return ListTile(
+                          title: TextButton(
+                            onPressed: () {
+                              // Navigate to Product List Screen with selected category as argument
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProductListScreen(category: children),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  children.name ?? '',
+                                  style: TextStyle(
+                                      color: AppColor.typographyColor),
+                                ),
+                              ],
                             ),
                           ),
-                          ],
-                        ),),
-                      );
-                    }).toList(),
+                        );
+                      },
+                    ).toList(),
                   );
                 },
               ),
-        ),
-      );
-    }
+      ),
+    );
   }
+}

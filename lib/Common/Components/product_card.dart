@@ -1,10 +1,5 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/main.dart';
-
-import '../../Provider/favourite_provider.dart';
-import '../Utils/app_colors.dart';
 
 class ProductCard extends StatelessWidget {
   final int productId; // Add a unique ID for the product
@@ -12,7 +7,7 @@ class ProductCard extends StatelessWidget {
   final String productName;
   final double price;
   final double oldPrice;
-  final int rating;  // Assuming a rating out of 5
+  final int rating; // Assuming a rating out of 5
 
   const ProductCard({
     super.key,
@@ -29,40 +24,39 @@ class ProductCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: () {
-
-      },
-
+      onTap: () {},
       child: Card(
         elevation: 4,
         color: AppColor.bgColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Product Image
             ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Image.asset(imagePath,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+              child: Image.asset(
+                imagePath,
                 height: height / 5.39,
-                width: width /2.06,
-                  fit: BoxFit.cover,
-                )),
+                width: width / 2.06,
+                fit: BoxFit.cover,
+              ),
+            ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: width /56.75, vertical : height/101),
+              padding: EdgeInsets.symmetric(
+                  horizontal: width / 56.75, vertical: height / 101),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Image
-
-                  SizedBox(height: height /80.8),
+                  SizedBox(height: height / 80.8),
                   // Product Name
                   Text(
                     productName,
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: height /50.5,
+                      fontSize: height / 50.5,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -76,10 +70,10 @@ class ProductCard extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColor.errorColor,
-                          fontSize: height /60.5,
+                          fontSize: height / 60.5,
                         ),
                       ),
-                      SizedBox(width :width / 56.7),
+                      SizedBox(width: width / 56.7),
                       if (oldPrice > price)
                         Text(
                           '$currency.$oldPrice',
@@ -91,19 +85,21 @@ class ProductCard extends StatelessWidget {
                         ),
                     ],
                   ),
-                  SizedBox(height: height /161.6),
+                  SizedBox(height: height / 161.6),
                   // Rating Row (Star icons and rating value)
                   Row(
                     children: List.generate(
                       5,
-                          (index) => Icon(
+                      (index) => Icon(
                         Icons.star,
-                        size: height /50.5,
-                        color: index < rating ? Colors.orange : Colors.grey.shade300,
+                        size: height / 50.5,
+                        color: index < rating
+                            ? Colors.orange
+                            : Colors.grey.shade300,
                       ),
                     ),
                   ),
-                  SizedBox(height: height /80.8),
+                  SizedBox(height: height / 80.8),
                   // Add to Cart & Wishlist Buttons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -111,11 +107,14 @@ class ProductCard extends StatelessWidget {
                       SizedBox(
                         child: ElevatedButton(
                           onPressed: () {},
-                          style:  ButtonStyle(
-                              padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: width / 30.1,)),
+                          style: ButtonStyle(
+                              padding:
+                                  WidgetStatePropertyAll(EdgeInsets.symmetric(
+                                horizontal: width / 30.1,
+                              )),
                               elevation: const WidgetStatePropertyAll(4),
-                              backgroundColor:
-                              const WidgetStatePropertyAll(AppColor.primaryColor)),
+                              backgroundColor: const WidgetStatePropertyAll(
+                                  AppColor.primaryColor)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -134,7 +133,7 @@ class ProductCard extends StatelessWidget {
                         // Use Consumer to listen to changes
                         builder: (context, favouriteItems, child) {
                           bool isFavorite =
-                          favouriteItems.selectedItems.contains(productId);
+                              favouriteItems.selectedItems.contains(productId);
                           return IconButton(
                             onPressed: () {
                               // if (isFavorite) {
@@ -147,7 +146,7 @@ class ProductCard extends StatelessWidget {
                               isFavorite
                                   ? BootstrapIcons.heart_fill
                                   : BootstrapIcons.heart,
-                              color:  Colors.red ,
+                              color: Colors.red,
                             ),
                           );
                         },

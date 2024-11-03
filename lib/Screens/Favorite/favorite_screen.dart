@@ -1,17 +1,9 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:store_app/data/Services/WpServices.dart';
+
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
-import '../../Common/Components/my_drawer.dart';
-import '../../Common/Components/product_card.dart';
-import '../../Common/Utils/app_colors.dart';
-import '../../Common/new/new_card.dart';
-import '../../Model/lists_class.dart';
-import '../../Model/product_service.dart';
-import '../../Model/products_model.dart';
-import '../../Provider/cart_provider.dart';
-import '../../Provider/favourite_provider.dart';
-import '../Add to Cart/add_to_cart.dart';
+
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -21,7 +13,7 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   final StoreServices storeServices = StoreServices(); // Access store services
-  ProductsModel productsModel = ProductsModel();
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +60,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       body: Consumer<FavouriteItems>(
         builder: (context, favouriteItems, child) {
           // Filter products by their ID from the list of favorites
-          List<ProductsDetail> favouriteProducts = productsModel.products
+          List<ProductsDetail> favouriteProducts = WpServices.products
               .where((product) => favouriteItems.selectedItems.any((fav) => fav.id == product.id))
               .toList();
 

@@ -1,26 +1,6 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:badges/badges.dart' as badges;
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/Common/new/new_card_widget_2.dart';
-import '../../Common/Components/card_listView.dart';
-import '../../Common/Components/my_drawer.dart';
-import '../../Common/Components/saleProductCard_listView.dart';
-import '../../Common/Components/top_deals_listView.dart';
-import '../../Common/new/new_card_3.dart';
-import '../../Common/new/new_card_widget.dart';
-import '../../Common/new/new_card_widget_4.dart';
-import '../../Model/lists_class.dart';
-import '../../Common/Components/card.dart';
-import '../../Model/products_model.dart';
-import '../../Provider/cart_provider.dart';
-import '../../main.dart';
-import '../Add to Cart/add_to_cart.dart';
+import '../../Export/export_dev.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,19 +10,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ProductsModel productsModel =  ProductsModel();
 
+  // Instance of All Products API call
+
+
+  // Instance of Custom Created products List
   final storeServices = StoreServices();
+
   bool isSearching = false;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    print(height);
-    print(width);
+    print('home screen');
     return Scaffold(
       backgroundColor: AppColor.bgColor,
+      // AppBar
       appBar: AppBar(
         title: isSearching
             ? Container(
@@ -70,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+        // App Bar Actions
         actions: [
           IconButton(
             icon: Icon(
@@ -106,14 +91,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+        // Change drawer icon color here
         iconTheme: const IconThemeData(
           color: AppColor.bgColor,
-        ), // Change drawer icon color here
+        ),
       ),
+      // Drawer
       drawer: const MyDrawer(),
+      // Home Screen Body
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // CarouselSlider and Vouchers
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -186,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Gap(height * 0.01),
+                    // All Vouchers
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -336,6 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Categories
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -406,6 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Flash Sales Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -467,6 +459,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Top Deals Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -528,6 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // First Card Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -580,6 +574,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Second Card Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -632,6 +627,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Third Card Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -684,6 +680,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Main Card Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,
@@ -736,6 +733,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gap(height * 0.01),
+            // Fourth Card Widget
             Container(
               decoration: BoxDecoration(
                 color: AppColor.bgColor,

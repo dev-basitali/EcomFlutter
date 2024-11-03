@@ -1,10 +1,5 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/main.dart';
-
-import '../../Provider/favourite_provider.dart';
-import '../Utils/app_colors.dart';
 
 class CustomCardTwo extends StatelessWidget {
   final int productId;
@@ -22,17 +17,18 @@ class CustomCardTwo extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
+                // Product Image
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
                 child: Image.asset(
                   'assets/images/headphones.jpg',
-
                   height: height /5.39,
                   fit: BoxFit.fitWidth,
                 ),
               ),
+              // Favourite Provider
               Consumer<FavouriteItems>(
                 // Use Consumer to listen to changes
                 builder: (context, favouriteItems, child) {
@@ -46,6 +42,7 @@ class CustomCardTwo extends StatelessWidget {
                       //   favouriteItems.addItem(productId);
                       // }
                     },
+                    // Favourite Icon
                     icon: Icon(
                       isFavorite
                           ? BootstrapIcons.heart_fill
@@ -59,6 +56,7 @@ class CustomCardTwo extends StatelessWidget {
               ),
             ],
           ),
+          // Product Name
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: width /56.75, vertical : height/101),
             child: Column(
@@ -71,6 +69,7 @@ class CustomCardTwo extends StatelessWidget {
                   style: TextStyle(fontSize: height /40.4, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height:  height /101,),
+                // Price
                 Text(
                     '$currency.100.00 ',
                   style: TextStyle(
@@ -80,6 +79,7 @@ class CustomCardTwo extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: height /101,),
+                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

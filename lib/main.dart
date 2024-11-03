@@ -1,14 +1,11 @@
+
+import '../../Export/export_dev.dart';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/Provider/cart_provider.dart';
-import 'package:store_app/Provider/data_provider.dart';
 
-import 'Provider/favourite_provider.dart';
-import 'Screens/Bottom Navigation/bottom_navigation.dart';
 const String currency = "\$";
+
 // void main() => runApp(
 //   DevicePreview(
 //     enabled: !kReleaseMode,
@@ -25,9 +22,13 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() {
-  HttpOverrides.global = MyHttpOverrides();
-  // Your other initialization code here
-  runApp(MyApp());
+  HttpOverrides.global = MyHttpOverrides(); // Set up HTTP overrides
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode, // Enable DevicePreview in non-release mode
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavouriteItems()),
         ChangeNotifierProvider(create: (_) => DataProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => CheckOutProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -49,12 +51,11 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           appBarTheme: const AppBarTheme(color: AppColor.primaryColor),
           iconTheme: const IconThemeData(color: AppColor.bgColor),
-
           useMaterial3: true,
         ),
-        home: const BottomNavigation(),
+        // home: const BottomNavigation(),
+        home: const SignUpScreen(),
       ),
     );
   }
 }
-

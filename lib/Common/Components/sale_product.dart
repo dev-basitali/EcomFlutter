@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/main.dart';
+import '../../Export/export_dev.dart';
 
 class SaleProductCard extends StatelessWidget {
   final String imagePath;
@@ -33,6 +32,7 @@ class SaleProductCard extends StatelessWidget {
             Stack(
               alignment: Alignment.topLeft,
               children: [
+                // Product Image
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
@@ -45,6 +45,8 @@ class SaleProductCard extends StatelessWidget {
                     width: width / 3.02,
                   ),
                 ),
+
+                // Sale Percentage
                 Container(
                   padding: EdgeInsets.symmetric(
                       horizontal: width / 56.75, vertical: height / 161.6),
@@ -67,16 +69,6 @@ class SaleProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name
-                  // Text(
-                  //   productName,
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //     fontSize: 16,
-                  //   ),
-                  //   maxLines: 1,
-                  //   overflow: TextOverflow.ellipsis,
-                  // ),
                   SizedBox(height: height / 161.6),
                   // Product Price
                   ShaderMask(
@@ -92,6 +84,7 @@ class SaleProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Product Old Price
                   Text(
                     '$currency.$oldPrice',
                     style: TextStyle(

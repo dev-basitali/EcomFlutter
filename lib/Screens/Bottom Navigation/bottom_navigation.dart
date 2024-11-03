@@ -1,12 +1,5 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import '../Favorite/favorite_screen.dart';
-import '../Home Screen/home_screen.dart';
-import '../Messages/messages_screen.dart';
-import '../Products/products_screen.dart';
-import '../User Profile/profile_screen.dart';
+import '../../Export/export_dev.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -20,6 +13,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   bool isSearching = false;
 
   final List<Widget> _screens = [
+    // const HomeScreen(),
     const HomeScreen(),
     const ProductsScreen(),
     const FavoriteScreen(),
@@ -31,10 +25,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.naturalColor,
       body: _screens[_currentIndex],
       bottomNavigationBar: SalomonBottomBar(
-        margin: EdgeInsets.symmetric(horizontal:  width / 100,vertical: height / 150),
+        margin: EdgeInsets.symmetric(
+            horizontal: width / 100, vertical: height / 150),
         backgroundColor: AppColor.typographyColor,
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),

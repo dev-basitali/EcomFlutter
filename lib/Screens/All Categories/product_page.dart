@@ -1,16 +1,8 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import '../../Export/export_dev.dart';
 
-import 'package:provider/provider.dart';
-import '../../../Model/product_service.dart'; // Import your ProductService
-import '../../../Model/category_model.dart';
-import '../../Common/Utils/app_colors.dart';
-import '../../Common/new/new_card.dart';
-import '../../Model/products_model.dart';
-import '../../Provider/cart_provider.dart';
-import '../Add to Cart/add_to_cart.dart';
-import '../Product Details/product_details.dart'; // Import your ProductsModel
 
 class ProductListScreen extends StatefulWidget {
   final CategoryModel category;
@@ -18,11 +10,11 @@ class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});
 
   @override
-  _ProductListScreenState createState() => _ProductListScreenState();
+  ProductListScreenState createState() => ProductListScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
-  final ProductsModel productService = ProductsModel();
+class ProductListScreenState extends State<ProductListScreen> {
+
   List<ProductsDetail> products = [];
   bool isLoading = true; // State variable to track loading
 
@@ -34,7 +26,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Future<void> fetchProducts() async {
     // Fetch all products
-    List<ProductsDetail> allProducts = await productService.getProducts();
+    List<ProductsDetail> allProducts = await WpServices.getProducts();
     setState(() {
       // Filter products based on the selected category
       products = allProducts
@@ -90,16 +82,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
       body: isLoading // Check if still loading
           ? const Center(child: CircularProgressIndicator())
           : products.isEmpty // Check if no products available
-              ? const Center(
+              ? Center(
                   child: Text(
                     'No products available in this category.',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: height/ 50.5, fontWeight: FontWeight.bold),
                   ),
                 )
               : GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: (width / 2.55) / (height * 0.35),
+                    childAspectRatio: (width / 2.6) / (height * 0.36),
                   ),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
@@ -118,7 +110,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             reverseTransitionDuration: const Duration(milliseconds: 500),
                             pageBuilder: (context, animation, secondaryAnimation) => FadeTransition(
                               opacity: animation,
-                              child: ProductDetailPage( product: productService.products[index], id: productService.products[index].id!,
+                              child: ProductDetailPage( product: WpServices.products[index], id: WpServices.products[index].id!,
                               ),
                             ),
                           ),

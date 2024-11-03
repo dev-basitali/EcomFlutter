@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import '../../Model/products_model.dart';
-import '../../Provider/favourite_provider.dart';
-import '../../Screens/Product Details/product_details.dart';
-import 'new_card.dart';
+import '../../Export/export_dev.dart';
+
+
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -14,12 +11,12 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final ProductsModel productsModel = ProductsModel();
+
 
   @override
   void initState() {
 
-    productsModel.getProducts;
+    WpServices.getProducts;
     super.initState();
   }
 
@@ -32,7 +29,7 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       body: FutureBuilder(
-        future: productsModel.getProducts(),
+        future: WpServices.getProducts(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -41,9 +38,9 @@ class _ProductPageState extends State<ProductPage> {
               padding: const EdgeInsets.all(16.0),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: productsModel.products.length,
+                itemCount: WpServices.products.length,
                 itemBuilder: (context, index) {
-                  final product = productsModel.products[index];
+                  final product = WpServices.products[index];
 
                   final String imagePath = product.images?.isNotEmpty == true
                       ? product.images![0].src!.replaceAll('localhost', '192.168.18.52') // Replace 'localhost' with your IP address

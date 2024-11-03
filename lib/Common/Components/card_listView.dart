@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:store_app/Common/Components/product_card.dart';
-
-import '../../Model/lists_class.dart';
+import '../../Export/export_dev.dart';
 
 class ProductCardList extends StatelessWidget {
   final storeServices = StoreServices();

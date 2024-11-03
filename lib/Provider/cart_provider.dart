@@ -1,7 +1,6 @@
-import 'package:cool_alert/cool_alert.dart';
-import 'package:flutter/material.dart';
 
-import '../Model/product_service.dart'; // Adjust this import as needed
+import '../../Export/export_dev.dart';
+import 'package:flutter/material.dart';
 
 class CartProvider with ChangeNotifier {
    double _subTotal = 0;
@@ -16,7 +15,7 @@ class CartProvider with ChangeNotifier {
   int get counter => _counter ;
 
   void addToCart(ProductsDetail product , BuildContext context) {
-    if(product.stockQuantity==null) {
+    if(product.stockQuantity == null || product.stockQuantity! <=0) {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
@@ -62,6 +61,13 @@ class CartProvider with ChangeNotifier {
        _subTotal += unitPrice * itemsQuantity[i];
      }
    }
+   void clearCart() {
+     _cartItems.clear();
+     itemsQuantity.clear();
+     _calculateSubTotal(); // Reset subtotal
+     notifyListeners();
+   }
 
-  int get cartItemCount => _cartItems.length;
+
+   int get cartItemCount => _cartItems.length;
 }

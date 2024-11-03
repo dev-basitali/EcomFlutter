@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:store_app/Model/product_service.dart';
+import '../../Export/export_dev.dart';
 
 class FavouriteItems extends ChangeNotifier{
   List<ProductsDetail> _selectedItems = [];

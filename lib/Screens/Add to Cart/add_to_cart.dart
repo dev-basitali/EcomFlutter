@@ -1,13 +1,7 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:provider/provider.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/Model/product_service.dart';
-import 'package:store_app/Provider/cart_provider.dart';
 
-import '../../Model/products_model.dart';
-import '../CheckOut/checkout_screen.dart';
+
 
 class AddToCartScreen extends StatefulWidget {
   const AddToCartScreen({super.key});
@@ -17,8 +11,6 @@ class AddToCartScreen extends StatefulWidget {
 }
 
 class _AddToCartScreenState extends State<AddToCartScreen> {
-  final ProductsModel productsModel = ProductsModel(); // Access store services
-  ProductsDetail productsDetail = ProductsDetail();
 
   @override
   Widget build(BuildContext context) {
@@ -35,36 +27,31 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               TextStyle(fontWeight: FontWeight.bold, color: AppColor.bgColor),
         ),
         centerTitle: true,
-        // actions: [
-        //   badges.Badge(
-        //     showBadge: true,
-        //     badgeContent: Consumer<CartProvider>(
-        //       builder: (BuildContext context, CartProvider provider, Widget? child)
-        //       {
-        //         return Text(
-        //           provider.cartItems.length.toString(), // Number to display on the badge
-        //           style: const TextStyle(color: Colors.white), // Badge text style
-        //         );
-        //       },
-        //     ),
-        //     badgeStyle: const badges.BadgeStyle(
-        //       badgeColor: Colors.red, // Customize badge background color
-        //       padding: EdgeInsets.all(3), // Padding inside the badge
-        //     ),
-        //     position: badges.BadgePosition.topEnd(top: 0, end: 3), // Badge position
-        //     child: IconButton(
-        //       icon: const Icon(BootstrapIcons.cart3),
-        //       onPressed: () {
-        //         Navigator.push(context, MaterialPageRoute(builder: (builder) => AddToCartScreen()));
-        //
-        //       },
-        //     ),
-        //   ),
-        // ],
         iconTheme: const IconThemeData(color: AppColor.bgColor),
       ),
       body: cartProvider.cartItems.isEmpty
-          ? Center(child: Text('Your cart is empty'))
+          ? Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    BootstrapIcons.cart3,
+                    size: 50,
+                    color: AppColor.naturalColor,
+                  ),
+                  Text(
+                    'Your Cart Is Empty',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.typographyColor,
+                    ),
+                  ),
+                  Text('When you add products, they\'ll'),
+                ],
+              ),
+            )
           : Consumer<CartProvider>(
               builder:
                   (BuildContext context, CartProvider provider, Widget? child) {
@@ -185,17 +172,56 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        color: AppColor.rareColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                                'Total price: \$${provider.subTotal.toStringAsFixed(2)}'),
-                            SizedBox(
-                              width: 30,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: width / 1.3,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    'Total price: '),
+                                Text(
+                                    '\$${provider.subTotal.toStringAsFixed(2)}'),
+                              ],
                             ),
-                            ElevatedButton(
+                          ),
+                          Divider(),
+                          Gap(10),
+                          SizedBox(
+                            width: width / 1.3,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    'Shipping Fee'),
+                                Text(
+                                    '\$${provider.subTotal.toStringAsFixed(2)}'),
+                              ],
+                            ),
+                          ),
+                          Divider(),
+                          Gap(10),
+                          SizedBox(
+                            width: width / 1.3,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    'Discounted price: '),
+                                Text(
+                                    '\$${provider.subTotal.toStringAsFixed(2)}'),
+                              ],
+                            ),
+                          ),
+                          Divider(),
+                          Gap(10),
+                          SizedBox(
+                            width: width / 1.3,
+                            child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -203,11 +229,16 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                                           builder: (context) =>
                                               const CheckoutScreen()));
                                 },
-                                child: Text('CheckOut'))
-                          ],
-                        ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10), // Set the desired radius
+                                  ),
+                                ),
+                                child: Text('CheckOut')),
+                          )
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 );
               },

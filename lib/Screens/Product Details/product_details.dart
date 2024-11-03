@@ -1,17 +1,10 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+
+import '../../Export/export_dev.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/main.dart';
-import 'package:store_app/Model/product_service.dart';
-import 'package:store_app/Model/reviews_model.dart';
-
-import '../../Common/Utils/app_colors.dart';
-import '../../Model/reviews_service.dart';
 import '../../Model/variation_model.dart';
-import '../../Model/variation_service.dart';
-import '../../Provider/cart_provider.dart';
-import '../Add to Cart/add_to_cart.dart';
+
+
 
 class ProductDetailPage extends StatefulWidget {
   final ProductsDetail product;
@@ -47,8 +40,8 @@ class ProductDetailPageState extends State<ProductDetailPage> {
 
   // Fetch reviews based on the product ID
   void fetchProductReviews() async {
-    final reviewService = ReviewsService();
-    final fetchedReviews = await reviewService.getReviews(widget.product.id!);
+
+    final fetchedReviews = await WpServices.getReviews(widget.product.id!);
     setState(() {
       reviews = fetchedReviews;
       isLoading = false;
@@ -57,9 +50,9 @@ class ProductDetailPageState extends State<ProductDetailPage> {
 
   // Fetch product variations based on the product ID
   void fetchProductVariations() async {
-    final variationService = VariationService();
+
     final fetchedVariations =
-        await variationService.fetchProductVariation(context);
+        await WpServices.fetchProductVariation(context);
     setState(() {
       productVariations = fetchedVariations;
       isVariationLoading = false;

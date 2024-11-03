@@ -1,12 +1,5 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/main.dart';
-
-import '../../Model/new_model.dart';
-import '../../Provider/favourite_provider.dart';
-import '../../Screens/Product Details/product_details_2.dart';
-import '../Utils/app_colors.dart';
 
 class ItemsDisplay extends StatefulWidget {
   const ItemsDisplay({super.key});

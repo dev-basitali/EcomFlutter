@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Common/Utils/app_colors.dart';
+import '../../Export/export_dev.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -23,44 +23,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               color: AppColor.bgColor
           ),),
         centerTitle: true,
-        // actions: [
-        //   badges.Badge(
-        //     showBadge: true,
-        //     badgeContent: Consumer<CartProvider>(
-        //       builder: (BuildContext context, CartProvider provider, Widget? child)
-        //       {
-        //         return Text(
-        //           provider.cartItems.length.toString(), // Number to display on the badge
-        //           style: const TextStyle(color: Colors.white), // Badge text style
-        //         );
-        //       },
-        //     ),
-        //     badgeStyle: const badges.BadgeStyle(
-        //       badgeColor: Colors.red, // Customize badge background color
-        //       padding: EdgeInsets.all(3), // Padding inside the badge
-        //     ),
-        //     position: badges.BadgePosition.topEnd(top: 0, end: 3), // Badge position
-        //     child: IconButton(
-        //       icon: const Icon(BootstrapIcons.cart3),
-        //       onPressed: () {
-        //         Navigator.push(context, MaterialPageRoute(builder: (builder) => AddToCartScreen()));
-        //
-        //       },
-        //     ),
-        //   ),
-        // ],
+
         iconTheme: const IconThemeData(
             color: AppColor.bgColor),
       ),
       body: Column(
         children: [
           SizedBox(
-            height: height * 0.8,
+            height: height * 0.77,
             child: Column(
               children: [
-                Divider(),
+                const Divider(),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (builder) => const AddressScreen()));
+                  },
                   child: SizedBox(
                     height: 100,
                     child: Row(
@@ -72,7 +49,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                 ),
-                Divider(),
+                const Divider(),
               ],
             ),
           ),

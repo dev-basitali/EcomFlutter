@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/main.dart';
-
-import '../Utils/app_colors.dart';
+import '../../Export/export_dev.dart';
 
 class CustomCardFour extends StatelessWidget {
   final int productId;

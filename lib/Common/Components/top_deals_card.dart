@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/main.dart';
+import '../../Export/export_dev.dart';
 
 class TopDealsCard extends StatelessWidget {
   final String imagePath;
@@ -33,6 +32,7 @@ class TopDealsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Product Image
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
@@ -50,8 +50,6 @@ class TopDealsCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product Image
-
                       SizedBox(height: height /161.6),
                       // Product Price
                       Text(
@@ -71,7 +69,7 @@ class TopDealsCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: height /161.1),
-                      // Product Name
+                      // Minimum orders
                       Text(
                         'Min. order: $noOfItems piece',
                         style:  TextStyle(

@@ -1,13 +1,7 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
+import '../../Export/export_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
+
 import 'package:badges/badges.dart' as badges;
-
-
-import '../../Common/Components/my_drawer.dart';
-import '../../Provider/cart_provider.dart';
-import '../Add to Cart/add_to_cart.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});

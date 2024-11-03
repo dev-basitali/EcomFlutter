@@ -1,11 +1,7 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
-import 'package:flutter/material.dart';
-import 'package:store_app/Model/category_model.dart';
-import 'package:store_app/Model/category_service.dart';
 
-import '../../Common/Components/list_drawer.dart';
-import '../../Common/Utils/app_colors.dart';
-import '../Add to Cart/add_to_cart.dart';
+import '../../Export/export_dev.dart';
+import 'package:flutter/material.dart';
+
 
 class AllCategoriesScreen extends StatefulWidget {
   const AllCategoriesScreen({super.key});
@@ -15,7 +11,6 @@ class AllCategoriesScreen extends StatefulWidget {
 }
 
 class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
-  final CategoryService categoryService = CategoryService();
   List<CategoryModel> parentCategories = [];
 
   @override
@@ -25,7 +20,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
   }
 
   Future<void> fetchCategories() async {
-    List<CategoryModel> allCategories = await categoryService.getCategories();
+    List<CategoryModel> allCategories = await WpServices.getCategories();
     setState(() {
       // Filter parent categories (parent == 0)
       parentCategories =

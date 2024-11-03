@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/Common/Utils/app_colors.dart';
-import 'package:store_app/Model/lists_class.dart';
+import '../../Export/export_dev.dart';
 
-import 'new_card_2.dart';
 // Import the Product model
 
 class ProductPageTwo extends StatelessWidget {
