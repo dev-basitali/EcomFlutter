@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:store_app/Common/Utils/AppFontSizes.dart';
 import 'package:store_app/Export/export_dev.dart';
 import 'package:store_app/Screens/Carts%20Designs/components/cart2itemswidget.dart';
+import '../../Common/Utils/appFontWeights.dart';
+import '../../Common/Utils/appStyling.dart';
+import '../../Common/Utils/app_colors.dart';
 import 'components/wishlistitemwidget.dart';
 
 class Cart2 extends StatelessWidget {

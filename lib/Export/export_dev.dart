@@ -67,9 +67,7 @@ export '../Screens/CheckOut/checkout_screen.dart';
 export '../Screens/Auth/Sign Up/signup_screen.dart';
 export '../Screens/Add Address/address_screen.dart';
 export '../../Model/shipping_address_model.dart';
-export '../Screens/Payments/Payment Methods/payment_methods.dart';
-export '../Screens/Auth//Sign in/signin_screen.dart';
-
+export '../Screens/Payments/Payment Methods/cash_on_delivery.dart';
 export 'package:store_app/data/Services/WpServices.dart';
 
 export '../Screens//Payments/Select Payment Method/select_payment.dart';

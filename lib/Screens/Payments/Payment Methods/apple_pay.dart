@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/Export/export_dev.dart'; // Your export file
 
-import '../../../Export/export_dev.dart'; // Your export file
-
-class PaymentMethods extends StatefulWidget {
-  const PaymentMethods({super.key});
+class ApplePayScreen extends StatefulWidget {
+  const ApplePayScreen({super.key});
 
   @override
-  State<PaymentMethods> createState() => _PaymentMethodsState();
+  State<ApplePayScreen> createState() => _ApplePayScreenState();
 }
 
-class _PaymentMethodsState extends State<PaymentMethods> {
+class _ApplePayScreenState extends State<ApplePayScreen> {
   @override
   Widget build(BuildContext context) {
     // Access the CartProvider and CheckOutProvider
@@ -19,7 +18,7 @@ class _PaymentMethodsState extends State<PaymentMethods> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Cash on Delivery'),
+          title: Text('Apple pay'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

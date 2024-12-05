@@ -241,9 +241,9 @@ class WpServices {
 
     // Use selected payment method from checkOutProvider
     String paymentMethod = checkOutProvider.selectedPaymentMethod ?? 'bacs';
-    String paymentMethodTitle = paymentMethod == 'bacs'
-        ? 'Direct Bank Transfer'
-        : 'Other Payment Method'; // Adjust titles for other methods
+    // String paymentMethodTitle = paymentMethod == 'bacs'
+    //     ? 'Direct Bank Transfer'
+    //     : 'Other Payment Method'; // Adjust titles for other methods
 
     // Use selected shipping address from checkOutProvider
     ShippingAddress shippingAddress =
@@ -262,7 +262,7 @@ class WpServices {
 
     final body = jsonEncode({
       'payment_method': paymentMethod,
-      'customer_id': '',
+
       'status': 'on-hold',
       'payment_method_title': paymentMethod,
       'set_paid': true,

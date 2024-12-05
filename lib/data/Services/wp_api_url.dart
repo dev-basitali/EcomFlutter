@@ -1,5 +1,5 @@
 class WpApiUrl {
-  static const String baserUrl = "https://192.168.18.52/ecomFlutterApp/wp-json";
+  static const String baserUrl = "https://192.168.100.5/ecomFlutter/wp-json";
 
   static const String category = "$products/categories";
   static const String review = "$products/reviews";

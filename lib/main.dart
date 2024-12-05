@@ -1,8 +1,11 @@
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import '../../Export/export_dev.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'Common/Utils/consts.dart';
 
 const String currency = "\$";
 
@@ -21,7 +24,8 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+Future<void> main() async {
+  await _setup();
   HttpOverrides.global = MyHttpOverrides(); // Set up HTTP overrides
   runApp(
     DevicePreview(
@@ -29,6 +33,11 @@ void main() {
       builder: (context) => const MyApp(), // Wrap your app
     ),
   );
+}
+
+Future<void> _setup() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
 }
 
 class MyApp extends StatelessWidget {
